@@ -18,6 +18,5 @@
         "react"
     ],
     "rules": {
-        "react/jsx-first-prop-new-line": "multiline-multiprop"
     }
 }
