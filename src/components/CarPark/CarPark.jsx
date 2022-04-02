@@ -1,10 +1,16 @@
 import React from 'react';
 
+import CustomButton from '../CustomButton/CustomButton';
+import BoxStyled from '../ServiceStation/styledComponents';
+
 function CarPark() {
   return (
-    <div>
-      CarPark
-    </div>
+    <>
+      <CustomButton name="Добавить автомобиль" />
+      <BoxStyled>
+        CarPark
+      </BoxStyled>
+    </>
   );
 }
 

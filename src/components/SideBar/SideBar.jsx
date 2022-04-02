@@ -80,7 +80,9 @@ function SideBar({ window, children }) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{
+          flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, maxWidth: 1440, margin: '0 auto',
+        }}
       >
         <Toolbar />
         {children}
