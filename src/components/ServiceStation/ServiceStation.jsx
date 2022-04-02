@@ -3,7 +3,7 @@ import React from 'react';
 function ServiceStation() {
   return (
     <div>
-      2222222232312
+      Станция тех обслуживания
     </div>
   );
 }
