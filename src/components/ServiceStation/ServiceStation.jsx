@@ -17,7 +17,7 @@ function ServiceStation() {
         {serviceStation.map((service) => (
           <CustomCard
             key={service.id}
-            carServiceIcon={carServiceIcon}
+            icon={carServiceIcon}
             name={service.name}
             description={service.description}
             link={`/single-page-car-service/${service.id}`}

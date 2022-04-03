@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 function CustomCard({
   // eslint-disable-next-line react/prop-types
-  carServiceIcon, name, description, link,
+  icon, name, description, link,
 }) {
   return (
     <Link style={{ textDecoration: 'none', color: 'black' }} to={link}>
@@ -16,7 +16,7 @@ function CustomCard({
           <CardMedia
             component="img"
             height="140"
-            image={carServiceIcon}
+            image={icon}
             alt="icon"
           />
           <CardContent>
