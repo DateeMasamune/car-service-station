@@ -17,7 +17,7 @@ const storeReduxData = (state = initialState, action) => {
     case WRITE_SERVICE_STATION:
       return { ...state, serviceStation: action.payload };
     case WRITE_CAR:
-      return { ...state, serviceStation: action.payload };
+      return { ...state, carPark: action.payload };
     case ORDER_DETAIL:
       return { ...state, serviceStation: action.payload };
     default:

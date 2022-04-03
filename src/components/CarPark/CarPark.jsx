@@ -1,15 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Dialog } from '@mui/material';
 import CustomButton from '../CustomButton/CustomButton';
 import CustomCard from '../CustomCard/CustomCard';
 import BoxStyled from '../ServiceStation/styledComponents';
 
 import carIcon from '../../assets/carIcon.jpg';
+import DialogAddCar from './DialogAddCar/DialogAddCar';
+import Loading from '../Loading/Loading';
 
 function CarPark() {
   const [addCar, setAddCar] = useState(false);
+  const [load, setLoad] = useState(false);
   const carParkRedux = useSelector((store) => store.carPark);
   const serviceStation = useSelector((store) => store.serviceStation);
   const description = useCallback((carId) => (
@@ -34,10 +36,8 @@ function CarPark() {
           />
         ))}
       </BoxStyled>
-      <Dialog onClose={handlerAddCar} open={addCar}>
-        11111
-        {/* тут будут селекты и чекбоксы */}
-      </Dialog>
+      <DialogAddCar handlerAddCar={handlerAddCar} addCar={addCar} setLoad={setLoad} />
+      {load && <Loading load={load} />}
     </>
   );
 }

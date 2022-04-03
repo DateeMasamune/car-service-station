@@ -2,9 +2,10 @@ import React from 'react';
 import { Button } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types
-function CustomButton({ name, onClick }) {
+function CustomButton({ name, onClick, disabled }) {
   return (
     <Button
+      disabled={disabled}
       variant="contained"
       onClick={onClick}
     >
