@@ -5,8 +5,7 @@ import {
   Checkbox,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogContentText, FormControl, FormControlLabel, FormGroup, MenuItem, Select,
+  DialogContent, FormControl, FormControlLabel, FormGroup, MenuItem, Select,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import detailsMock from '../../../mockData/detailsMock';
@@ -77,55 +76,53 @@ function DialogAddCar({ handlerAddCar, addCar, setLoad }) {
   return (
     <Dialog onClose={handlerAddCar} open={addCar} maxWidth="xs">
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          <FormControl fullWidth style={{ marginBottom: 20, minWidth: 300 }}>
-            <Select
-              value={selectService}
-              onChange={handleChangeService}
-              displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
-            >
-              <MenuItem disabled value="">
-                <em>Станция техобслуживании</em>
-              </MenuItem>
-              {serviceStation.map((serviceName) => (
-                <MenuItem
-                  key={serviceName.name}
-                  value={serviceName.id}
-                >
-                  {serviceName.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl fullWidth style={{ minWidth: 300 }}>
-            <Select
-              value={selectCarBrand}
-              onChange={handlerChangeBrand}
-              displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
-            >
+        <FormControl fullWidth style={{ marginBottom: 20, minWidth: 300 }}>
+          <Select
+            value={selectService}
+            onChange={handleChangeService}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem disabled value="">
+              <em>Станция техобслуживании</em>
+            </MenuItem>
+            {serviceStation.map((serviceName) => (
               <MenuItem
-                disabled
-                value=""
+                key={serviceName.name}
+                value={serviceName.id}
               >
-                <em>Марка автомобиля</em>
+                {serviceName.name}
               </MenuItem>
-              {carBrands.map((brand) => (
-                <MenuItem key={brand} value={brand}>{brand}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormGroup>
-            {detailsMock.map((detail) => (
-              <FormControlLabel
-                key={detail}
-                control={<Checkbox name={detail} onChange={handleChangeBrand} />}
-                label={detail}
-              />
             ))}
-          </FormGroup>
-        </DialogContentText>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth style={{ minWidth: 300 }}>
+          <Select
+            value={selectCarBrand}
+            onChange={handlerChangeBrand}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+          >
+            <MenuItem
+              disabled
+              value=""
+            >
+              <em>Марка автомобиля</em>
+            </MenuItem>
+            {carBrands.map((brand) => (
+              <MenuItem key={brand} value={brand}>{brand}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormGroup>
+          {detailsMock.map((detail) => (
+            <FormControlLabel
+              key={detail}
+              control={<Checkbox name={detail} onChange={handleChangeBrand} />}
+              label={detail}
+            />
+          ))}
+        </FormGroup>
       </DialogContent>
       <DialogActions>
         <CustomButton
