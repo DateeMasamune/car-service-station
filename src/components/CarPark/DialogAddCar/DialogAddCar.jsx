@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import detailsMock from '../../../mockData/detailsMock';
 import CustomButton from '../../CustomButton/CustomButton';
 import { writeCar } from '../../../redux/actions/actions';
+import useUniqValuesCheckbox from '../../../customHooks/useUniqValuesCheckbox';
+import useUpdateReduxStore from '../../../customHooks/useUpdateReduxStore';
 
 function DialogAddCar({ handlerAddCar, addCar, setLoad }) {
   const [selectService, setSelectService] = useState('');
@@ -38,15 +40,7 @@ function DialogAddCar({ handlerAddCar, addCar, setLoad }) {
   }, [selectService]);
 
   const handleChangeBrand = (event) => {
-    if (!event.target.checked) {
-      const deletDetail = selectDetail.filter((detail) => detail !== event.target.name);
-      setSelectDetail(deletDetail);
-    } else {
-      if (!selectDetail.includes(event.target.name)) {
-        setSelectDetail((prevState) => [...prevState, event.target.name]);
-      }
-      setSelectDetail((prevState) => prevState);
-    }
+    useUniqValuesCheckbox(event, selectDetail, setSelectDetail);
   };
 
   useEffect(() => {
@@ -65,12 +59,8 @@ function DialogAddCar({ handlerAddCar, addCar, setLoad }) {
       details: selectDetail,
     };
     const updateCarPark = [...carPark, car];
-    setLoad(true);
-    setTimeout(() => {
-      dispatch(writeCar(updateCarPark));
-      setLoad(false);
-    }, 3000);
     handlerAddCar(false);
+    useUpdateReduxStore(setLoad, dispatch, writeCar, updateCarPark);
   };
 
   return (

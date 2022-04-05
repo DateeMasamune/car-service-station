@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -14,28 +14,48 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import detailsMock from '../../../mockData/detailsMock';
 import carBrandsMock from '../../../mockData/carBrandsMock';
+import useUniqValuesCheckbox from '../../../customHooks/useUniqValuesCheckbox';
 
-function ServiceSettings() {
+// eslint-disable-next-line react/prop-types
+function ServiceSettings({ setAllCarBrands }) {
   const [openCheckbox, setOpenCheckbox] = useState(false);
-  const [selectCarBrand, setSelectCarBrand] = useState('');
+  const [carBrand, setCarBrand] = useState('');
+  const [selectDetail, setSelectDetail] = useState([]);
 
-  const handlerChangeBrand = (event) => {
-    setSelectCarBrand(event.target.value);
+  const handlerSetCarBrand = (event) => {
+    setCarBrand(event.target.value);
   };
 
-  const handleChangeCheckbox = () => {
-    console.log(11111);
+  const handleChangeCheckbox = (event) => {
+    useUniqValuesCheckbox(event, selectDetail, setSelectDetail);
   };
 
   const handleClick = () => {
     setOpenCheckbox((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    const carAndSettings = {
+      [carBrand]: {
+        spareParts: selectDetail,
+      },
+    };
+
+    if (!!carAndSettings[carBrand]
+      && !!selectDetail.length) {
+      setAllCarBrands((prevState) => ({
+        ...prevState,
+        ...carAndSettings,
+      }));
+    }
+  }, [selectDetail, carBrand]);
+
   return (
     <Box>
       <FormControl fullWidth style={{ minWidth: 300 }}>
         <Select
-          value={selectCarBrand}
-          onChange={handlerChangeBrand}
+          value={carBrand}
+          onChange={handlerSetCarBrand}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
         >

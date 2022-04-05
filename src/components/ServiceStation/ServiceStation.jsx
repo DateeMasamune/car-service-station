@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Dialog,
   DialogActions,
@@ -17,14 +17,22 @@ import carServiceIcon from '../../assets/brake-disc.jpg';
 import CustomButton from '../CustomButton/CustomButton';
 import CustomCard from '../CustomCard/CustomCard';
 import ServiceSettings from './ServiceSettings/ServiceSettings';
+import { writeServiceStation } from '../../redux/actions/actions';
+import Loading from '../Loading/Loading';
+import useUpdateReduxStore from '../../customHooks/useUpdateReduxStore';
 
 function ServiceStation() {
-  const serviceStation = useSelector((store) => store.serviceStation);
-  const [settings, setSettings] = useState([1]);
-  const [carServiceName, setCarServiceName] = useState('');
+  const [settings, setSettings] = useState([0]);
   const [open, setOpen] = useState(false);
+  const [carServiceName, setCarServiceName] = useState('');
+  const [allCarBrands, setAllCarBrands] = useState({});
+  const [buttonActive, setButtonActive] = useState(true);
+  const [descriptonServiceStation, setDescriptonServiceStation] = useState('');
+  const [load, setLoad] = useState(false);
+  const dispatch = useDispatch();
+  const serviceStation = useSelector((store) => store.serviceStation);
 
-  const handler = () => {
+  const handlerOpenDialog = () => {
     setOpen((prevState) => !prevState);
   };
 
@@ -32,9 +40,39 @@ function ServiceStation() {
     setCarServiceName(event.target.value);
   };
 
+  const addSettings = () => {
+    setSettings((prevState) => [...prevState, prevState[prevState.length - 1] + 1]);
+  };
+
+  const handlerAddCarServiceStation = () => {
+    setOpen(false);
+    const newServiceStation = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: carServiceName,
+      description: descriptonServiceStation,
+      supportedСars: {
+        ...allCarBrands,
+      },
+    };
+    const updateServiceStation = [...serviceStation, newServiceStation];
+    useUpdateReduxStore(setLoad, dispatch, writeServiceStation, updateServiceStation);
+  };
+
+  const handlerDescriptionServiceStation = (event) => {
+    setDescriptonServiceStation(event.target.value);
+  };
+
+  useEffect(() => {
+    if (Object.keys(allCarBrands).length && !!carServiceName) {
+      setButtonActive(false);
+    } else {
+      setButtonActive(true);
+    }
+  }, [allCarBrands, carServiceName]);
+
   return (
     <>
-      <CustomButton name="Добавить станцию техобслуживания" onClick={handler} />
+      <CustomButton name="Добавить станцию техобслуживания" onClick={handlerOpenDialog} />
       <BoxStyled>
         {serviceStation.map((service) => (
           <CustomCard
@@ -46,7 +84,7 @@ function ServiceStation() {
           />
         ))}
       </BoxStyled>
-      <Dialog onClose={handler} open={open} maxWidth="xs">
+      <Dialog onClose={handlerOpenDialog} open={open} maxWidth="xs">
         <DialogContent>
           <TextField
             value={carServiceName}
@@ -56,21 +94,34 @@ function ServiceStation() {
             label="Введи название станции ТО"
             variant="standard"
           />
-          {settings.map(() => (
-            <ServiceSettings />
+          <TextField
+            value={descriptonServiceStation}
+            onChange={handlerDescriptionServiceStation}
+            style={{ minWidth: 400, marginBottom: 20 }}
+            id="standard-basic"
+            label="Описание станции ТО"
+            variant="standard"
+          />
+          {settings.map((settingKey) => (
+            <ServiceSettings
+              key={settingKey}
+              setAllCarBrands={setAllCarBrands}
+              allCarBrands={allCarBrands}
+            />
           ))}
-          <IconButton onClick={() => setSettings((prevState) => [...prevState, 1])} color="primary" aria-label="add an alarm">
+          <IconButton onClick={addSettings} color="primary" aria-label="add an alarm">
             <AddBox />
           </IconButton>
         </DialogContent>
         <DialogActions>
           <CustomButton
-          // disabled={buttonDisabled}
+            disabled={buttonActive}
             name="Готово"
-            onClick={handler}
+            onClick={handlerAddCarServiceStation}
           />
         </DialogActions>
       </Dialog>
+      {load && <Loading load={load} />}
     </>
 
   );

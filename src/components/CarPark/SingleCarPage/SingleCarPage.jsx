@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CustomButton from '../../CustomButton/CustomButton';
 import { orderDetail } from '../../../redux/actions/actions';
 import Loading from '../../Loading/Loading';
+import useUpdateReduxStore from '../../../customHooks/useUpdateReduxStore';
 
 function SingleCarPage() {
   const [load, setLoad] = useState(false);
@@ -25,7 +26,6 @@ function SingleCarPage() {
     serviceStation?.find((service) => service.id === currentCar.serviceId)
   ), [carPark, serviceStation]);
   const { supportedСars } = services;
-
   const getSupportedСars = useCallback((detail) => (
     !supportedСars[currentCar.brand]?.spareParts.includes(detail)
   ), [currentCar, serviceStation]);
@@ -42,17 +42,14 @@ function SingleCarPage() {
         },
       },
     };
+
     const newStateServiceStation = serviceStation.map((service) => {
       if (service.id === order.id) {
         return order;
       }
       return service;
     });
-    setLoad(true);
-    setTimeout(() => {
-      dispatch(orderDetail(newStateServiceStation));
-      setLoad(false);
-    }, 3000);
+    useUpdateReduxStore(setLoad, dispatch, orderDetail, newStateServiceStation);
   };
 
   return (
