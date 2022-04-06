@@ -21,7 +21,7 @@ function Router() {
           <Route path="/car-park/single-car-page/:id" element={<SingleCarPage />} />
           <Route path="/send-for-maintenance" element={<SendForMaintenance />} />
           <Route path="/reception-for-maintenance" element={<ReceptionForMaintenance />} />
-          <Route path="/maintenance" element={<Maintenance />} />
+          <Route path="/maintenance/:id" element={<Maintenance />} />
           <Route path="/single-page-car-service/:id" element={<SinglePageCarService />} />
         </Routes>
       </SideBar>

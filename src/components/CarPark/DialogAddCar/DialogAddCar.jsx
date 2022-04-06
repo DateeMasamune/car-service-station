@@ -56,6 +56,9 @@ function DialogAddCar({ handlerAddCar, addCar, setLoad }) {
       id: Math.random().toString(36).substr(2, 9),
       serviceId: selectService,
       brand: selectCarBrand,
+      status: '',
+      step: 0,
+      history: [],
       details: selectDetail,
     };
     const updateCarPark = [...carPark, car];

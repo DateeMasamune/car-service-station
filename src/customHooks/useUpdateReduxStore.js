@@ -1,9 +1,12 @@
 const useUpdateReduxStore = (setLoad, dispatch, action, data) => {
   setLoad(true);
-  setTimeout(() => {
-    dispatch(action(data));
-    setLoad(false);
-  }, 3000);
+  return new Promise((res) => {
+    setTimeout(() => {
+      dispatch(action(data));
+      setLoad(false);
+      res('ready');
+    }, 1000);
+  });
 };
 
 export default useUpdateReduxStore;

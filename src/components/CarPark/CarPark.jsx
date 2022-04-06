@@ -28,7 +28,7 @@ function CarPark() {
       <BoxStyled>
         {carParkRedux.map((car) => (
           <CustomCard
-            key={car.brand}
+            key={car.id}
             icon={carIcon}
             name={car.brand}
             description={`Находится на техобслуживании у сервиса ${description(car.serviceId)}`}

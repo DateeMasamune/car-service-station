@@ -3,32 +3,38 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box, List, ListItem, ListItemText, Typography,
 } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import CustomButton from '../../CustomButton/CustomButton';
 import { orderDetail } from '../../../redux/actions/actions';
 import Loading from '../../Loading/Loading';
 import useUpdateReduxStore from '../../../customHooks/useUpdateReduxStore';
+import useCurrentCar from '../../../customHooks/useCurrentCar';
+import CarTitle from '../CarTitle/CarTitle';
+import useCurrentService from '../../../customHooks/useCurrentService';
 
 function SingleCarPage() {
   const [load, setLoad] = useState(false);
-  const location = useLocation().pathname.split('/');
   const navigate = useNavigate();
-  const pageId = location[location.length - 1];
   const dispatch = useDispatch();
-  const carPark = useSelector((store) => store.carPark);
-  const serviceStation = useSelector((store) => store.serviceStation);
-  const currentCar = useMemo(() => (
-    carPark.find((car) => car.id === pageId)
-  ), [carPark]);
-  const services = useMemo(() => (
-    serviceStation?.find((service) => service.id === currentCar.serviceId)
-  ), [carPark, serviceStation]);
+  const { currentCar, pageId } = useCurrentCar();
+  const { services, serviceStation } = useCurrentService();
   const { supportedСars } = services;
-  const getSupportedСars = useCallback((detail) => (
+
+  const searchDetail = (detail) => (
     !supportedСars[currentCar.brand]?.spareParts.includes(detail)
+  );
+
+  const getSupportedСars = useCallback((detail) => (
+    searchDetail(detail)
   ), [currentCar, serviceStation]);
+
+  const sendMaintenance = useMemo(() => (
+    currentCar.details.some(
+      (detail) => !searchDetail(detail) === false,
+    )
+  ), [serviceStation]);
 
   const backPage = () => (navigate(-1));
 
@@ -52,18 +58,20 @@ function SingleCarPage() {
     useUpdateReduxStore(setLoad, dispatch, orderDetail, newStateServiceStation);
   };
 
+  const handleSendCarMaintenance = () => {
+    navigate(`/maintenance/${pageId}`);
+  };
+
   return (
     <Box>
       {load && (
         <Loading load={load} />
       )}
       <CustomButton name="Назад" onClick={backPage} />
-      <Typography variant="h2" component="h2" style={{ marginTop: 50 }}>
-        {currentCar.brand}
-      </Typography>
-      <Typography variant="body1" style={{ marginBottom: 50 }}>
-        {`Станция техобслуживания: ${services.name}`}
-      </Typography>
+      <CarTitle currentCar={currentCar} services={services} />
+      <Box style={{ marginBottom: 50 }}>
+        <CustomButton name="Отправить автомобиль на техобслуживание" onClick={handleSendCarMaintenance} disabled={sendMaintenance} />
+      </Box>
       <Typography variant="h5" style={{ marginBottom: 50 }}>
         Запчасти которые нужно поменять:
       </Typography>
