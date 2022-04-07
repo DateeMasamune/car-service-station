@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Backdrop, CircularProgress } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types

@@ -1,26 +1,18 @@
-import React, { useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 import {
   Box, Chip, Typography,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
 
 import CustomButton from '../../CustomButton/CustomButton';
 import BoxStyled from './styledComponents';
-
+import useSinglePageCarService from './useSinglePageCarService';
 import carServiceIcon from '../../../assets/brake-disc.jpg';
 
 function SinglePageCarService() {
-  const location = useLocation().pathname.split('/');
-  const pageId = location[location.length - 1];
-  const navigate = useNavigate();
-  const reduxStore = useSelector((store) => store.serviceStation);
-  const currentService = useMemo(() => (
-    reduxStore.find((service) => service.id === pageId)
-  ), [reduxStore]);
-
-  const backPage = () => (navigate(-1));
-
+  const {
+    currentService,
+    backPage,
+  } = useSinglePageCarService();
   return (
     <Box>
       <CustomButton name="Назад" onClick={backPage} />

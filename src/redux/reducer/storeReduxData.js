@@ -1,10 +1,8 @@
 import useLocalStorageInit from '../../customHooks/useLocalStorageInit';
-import carParkMock from '../../mockData/carParkMock';
 import serviceStationMock from '../../mockData/serviceStationMock';
 import { ORDER_DETAIL, WRITE_CAR, WRITE_SERVICE_STATION } from '../types/types';
 
 useLocalStorageInit('serviceStationMock', serviceStationMock);
-useLocalStorageInit('carParkMock', carParkMock);
 
 const initialState = {
   serviceStation: localStorage.getItem('serviceStationMock') ? JSON.parse(localStorage.getItem('serviceStationMock')) : [],

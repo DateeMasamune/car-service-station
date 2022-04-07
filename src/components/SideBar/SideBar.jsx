@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
-
-// import PropTypes from 'prop-types';
+import React from 'react';
 import {
   AppBar,
   Box,
@@ -10,17 +8,16 @@ import {
 import { Menu } from '@mui/icons-material';
 
 import drawer from './drawer';
+import useSideBar from './useSideBar';
 
 const drawerWidth = 240;
 
 function SideBar({ window, children }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const {
+    mobileOpen,
+    handleDrawerToggle,
+    container,
+  } = useSideBar(window);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -92,11 +89,3 @@ function SideBar({ window, children }) {
 }
 
 export default SideBar;
-
-// SideBar.defaultProps = {
-//   children: PropTypes.func,
-// };
-
-// SideBar.propTypes = {
-//   children: PropTypes.func,
-// };

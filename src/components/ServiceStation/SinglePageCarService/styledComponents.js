@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 
 const BoxStyled = styled(Box)({
   display: 'flex',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
   flexWrap: 'wrap',
   maxWidth: 400,
   gap: 30,

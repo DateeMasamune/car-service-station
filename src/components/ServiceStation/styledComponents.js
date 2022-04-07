@@ -4,8 +4,9 @@ import { Box } from '@mui/material';
 const BoxStyled = styled(Box)({
   display: 'flex',
   flexWrap: 'wrap',
-  justifyContent: ' space-between',
+  justifyContent: 'flex-start',
   rowGap: 50,
+  gap: 50,
   marginTop: 50,
 });
 

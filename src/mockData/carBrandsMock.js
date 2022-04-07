@@ -6,6 +6,7 @@ const carBrandsMock = [
   'DODGE',
   'Ferarri',
   'Infiniti',
+  'Audi',
   'Jeep',
   'Lexus',
   'Renault',
